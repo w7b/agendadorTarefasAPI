@@ -2,7 +2,9 @@ package com.smoothy.agendadorTarefas.Controller;
 
 import com.smoothy.agendadorTarefas.Business.DTO.TarefasDTO;
 import com.smoothy.agendadorTarefas.Business.TarefaService;
+import com.smoothy.agendadorTarefas.Infrastructure.Enums.StatusNotificacao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,4 +38,25 @@ public class TarefaController {
 
         return ResponseEntity.ok(tarefas);
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deletaPorId(@RequestParam("Id") String Id){
+
+        tarefaService.deletaPorId(Id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping
+    public ResponseEntity<TarefasDTO> alteraStatusNotificacao(@RequestParam("status") StatusNotificacao status,
+                                                              @RequestParam("id") String Id){
+
+        return ResponseEntity.ok(tarefaService.alteraStatus(status, Id));
+    }
+
+    @PutMapping
+    public ResponseEntity<TarefasDTO> updateTarefas(@RequestBody TarefasDTO dto, @RequestParam("id") String Id){
+        return ResponseEntity.ok(tarefaService.updateTarefas(dto, Id));
+    }
+
 }
