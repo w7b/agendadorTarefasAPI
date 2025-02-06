@@ -1,0 +1,33 @@
+version: '3.8'
+
+
+services:
+  app:
+    container_name: tarefas-api
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/db_agendador
+    depends_on:
+      - mongodb
+    volumes:
+      - /app
+    networks:
+      - java-network
+
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - "27017:27017"
+    volumes:
+      - dbdata6:/data/db
+    networks:
+      - java-network
+
+volumes:
+  dbdata6:
+
+networks:
+  java-network:
+    driver: bridge
